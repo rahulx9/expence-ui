@@ -1,28 +1,31 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { addExpense } from '../services/expenseService';
 
-export default function AddExpense({ onAdd }) {
+export default function AddExpense() {
   const [name, setName] = useState('');
   const [source, setSource] = useState('');
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    try {
 
-    if (!name.trim() || !source.trim()) {
-      setMessage('Please enter both a name and a source.');
-      return;
+      if (!name.trim() || !source.trim()) {
+        setMessage('Please enter both a name and a source.');
+        return;
+      }
+
+      await addExpense({ name: name.trim(), source: source.trim() });
+      setName('');
+      setSource('');
+      setMessage('Expense added successfully!');
+      navigate('/expenses');
+    } catch (error) {
+      console.error('Error adding expense:', error);
     }
 
-    onAdd({ name: name.trim(), source: source.trim() });
-    setName('');
-    setSource('');
-    setMessage('Expense added successfully!');
-
-    setTimeout(() => {
-      navigate('/expenses');
-    }, 500);
   };
 
   return (

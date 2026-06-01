@@ -1,21 +1,8 @@
-import { useState } from 'react';
 import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
 import AddExpense from './pages/AddExpense.jsx';
 import ExpenseList from './pages/ExpenseList.jsx';
 
 function App() {
-  const [expenses, setExpenses] = useState([]);
-
-  const addExpense = (expense) => {
-    setExpenses((current) => [
-      {
-        id: crypto.randomUUID(),
-        createdAt: new Date().toLocaleString(),
-        ...expense
-      },
-      ...current
-    ]);
-  };
 
   return (
     <BrowserRouter>
@@ -34,8 +21,8 @@ function App() {
 
         <main className="page-content">
           <Routes>
-            <Route path="/" element={<AddExpense onAdd={addExpense} />} />
-            <Route path="/expenses" element={<ExpenseList expenses={expenses} />} />
+            <Route path="/" element={<AddExpense />} />
+            <Route path="/expenses" element={<ExpenseList />} />
           </Routes>
         </main>
       </div>

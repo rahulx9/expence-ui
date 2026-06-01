@@ -1,4 +1,22 @@
-export default function ExpenseList({ expenses }) {
+import { useEffect } from "react";
+import { getAllExpenses } from "../services/expenseService";
+
+export default function ExpenseList() {
+
+  const [expenses, setExpenses] = useState([]);
+
+  useEffect(() => {
+    let mounted = true;
+    getAllExpenses()
+      .then((data) => {
+        if (mounted && Array.isArray(data)) setExpenses(data);
+      })
+      .catch(() => {
+        console.error('Error fetching expenses');
+      });
+    return () => (mounted = false);
+  }, []);
+
   return (
     <section className="card page-card">
       <div className="section-header">
