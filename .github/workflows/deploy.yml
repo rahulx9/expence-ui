@@ -57,6 +57,12 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
+      - name: Create .env
+        run: |
+          cat > .env << 'EOF'
+          ${{ vars.ENV_FILE }}
+          EOF
+
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
