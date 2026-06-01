@@ -22,20 +22,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
 
-      - name: Setup GitHub Pages
+      - name: Setup Pages
         uses: actions/configure-pages@v5
 
       - name: Create .env
-        run: |
-          cat > .env << 'EOF'
-          ${{ vars.ENV_FILE }}
-          EOF
+        run: echo "${{ vars.ENV_FILE }}" > .env
 
       - name: Install Dependencies
         run: npm ci
@@ -43,7 +40,7 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Upload Artifact
+      - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
@@ -57,12 +54,6 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
-      - name: Create .env
-        run: |
-          cat > .env << 'EOF'
-          ${{ vars.ENV_FILE }}
-          EOF
-
-      - name: Deploy
+      - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
