@@ -18,6 +18,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    environment:
+      name: github-pages
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -28,11 +31,16 @@ jobs:
           node-version: 22
           cache: npm
 
-      - name: Setup Pages
+      - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
 
       - name: Create .env
-        run: echo "${{ vars.ENV_FILE }}" > .env
+        run: |
+          echo "VITE_APP_TITLE=${{ vars.VITE_APP_TITLE }}" > .env
+          echo "VITE_API_URL=${{ vars.VITE_API_URL }}" >> .env
+
+      - name: Verify .env
+        run: cat .env
 
       - name: Install Dependencies
         run: npm ci
