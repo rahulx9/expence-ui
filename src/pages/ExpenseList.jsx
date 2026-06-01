@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getAllExpenses } from "../services/expenseService";
 
 export default function ExpenseList() {
