@@ -5,7 +5,7 @@ import ExpenseList from './pages/ExpenseList.jsx';
 function App() {
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/expence-ui">
       <div className="app-shell">
         <header className="topbar">
           <div className="brand">Expense Monitor</div>
